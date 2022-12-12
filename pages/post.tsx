@@ -2,14 +2,27 @@ import React, { useEffect, useState } from 'react';
 import { auth, db } from '../utils/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useRouter } from 'next/router';
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 
 export default function Post() {
   const [post, setPost] = useState({ description: '' });
+  const [user, loading, error] = useAuthState(auth);
+  const route = useRouter();
 
   // Post submission
-
   const submitPost = async (e: React.FormEvent) => {
     e.preventDefault();
+    // Create new post
+    const collectionRef = collection(db, 'posts');
+    await addDoc(collectionRef, {
+      ...post,
+      timestamp: serverTimestamp(),
+      user: user?.uid,
+      avatar: user?.photoURL,
+      username: user?.displayName,
+    });
+    setPost({ description: '' });
+    return route.push('/');
   };
 
   return (
