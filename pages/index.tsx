@@ -1,6 +1,34 @@
 import Head from 'next/head';
+import Message from '../components/message';
+import { useEffect, useState } from 'react';
+import { db } from '../utils/firebase';
+import { collection, onSnapshot, orderBy, query, Timestamp } from 'firebase/firestore';
+
+interface IPostData {
+  description?: string;
+  avatar?: string;
+  timestamp?: Timestamp;
+  user?: string;
+  username?: string;
+  id?: string;
+}
 
 export default function Home() {
+  // All post state
+  const [allPosts, setAllPosts] = useState<IPostData[]>([]);
+  const getPosts = async () => {
+    const collectionRef = collection(db, 'posts');
+    const q = query(collectionRef, orderBy('timestamp', 'desc'));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      setAllPosts(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    });
+    return unsubscribe;
+  };
+
+  useEffect(() => {
+    getPosts();
+  }, []);
+
   return (
     <div>
       <Head>
@@ -9,7 +37,12 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main></main>
+      <div className="my-12 text-lg font-medium">
+        <h2>People&rsquo;s thoughts</h2>
+        {allPosts.map((post) => (
+          <Message key={post.id} {...post}></Message>
+        ))}
+      </div>
     </div>
   );
 }
