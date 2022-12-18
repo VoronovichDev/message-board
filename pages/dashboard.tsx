@@ -1,9 +1,19 @@
-import React, { use, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { auth, db } from '../utils/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useRouter } from 'next/router';
-import { collection, onSnapshot, query, Timestamp, where } from 'firebase/firestore';
+import {
+  collection,
+  deleteDoc,
+  doc,
+  onSnapshot,
+  query,
+  Timestamp,
+  where,
+} from 'firebase/firestore';
 import Message from '../components/message';
+import { FaTrash } from 'react-icons/fa';
+import { FaEdit } from 'react-icons/fa';
 
 interface IDashPostData {
   description?: string;
@@ -34,15 +44,43 @@ export default function Dashboard() {
     getData();
   }, [user, loading, route]);
 
+  // Delete
+  const deletePost = async (id: string | undefined) => {
+    if (typeof id === 'string') {
+      const docRef = doc(db, 'posts', id);
+      await deleteDoc(docRef);
+    }
+    return;
+  };
+
   return (
     <div>
-      <h1>Your posts</h1>
+      <h1 className="py-4">Your posts</h1>
       <div>
         {posts.map((post) => (
-          <Message {...post} key={post.id}></Message>
+          <Message {...post} key={post.id}>
+            <div className="flex gap-4">
+              <button
+                onClick={() => deletePost(post.id)}
+                className="flex text-rose-500 items-center justify-center gap-2 py-2 text-sm"
+              >
+                <FaTrash className="text-xl" />
+                Delete
+              </button>
+              <button className="flex text-zinc-400 items-center justify-center gap-2 py-2 text-sm">
+                <FaEdit className="text-xl" />
+                Edit
+              </button>
+            </div>
+          </Message>
         ))}
       </div>
-      <button onClick={() => auth.signOut()}>Sign Out</button>
+      <button
+        className="font-medium text-white bg-slate-800 py-2 px-4 my-8 rounded-lg"
+        onClick={() => auth.signOut()}
+      >
+        Sign Out
+      </button>
     </div>
   );
 }

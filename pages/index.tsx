@@ -38,7 +38,7 @@ export default function Home() {
       </Head>
 
       <div className="my-12 text-lg font-medium">
-        <h2>People&rsquo;s thoughts</h2>
+        <h2 className="py-4">People&rsquo;s thoughts</h2>
         {allPosts.map((post) => (
           <Message key={post.id} {...post}></Message>
         ))}
