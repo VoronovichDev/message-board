@@ -14,6 +14,8 @@ import {
 import Message from '../components/message';
 import { FaTrash } from 'react-icons/fa';
 import { FaEdit } from 'react-icons/fa';
+import Link from 'next/link';
+import { ParsedUrlQueryInput } from 'querystring';
 
 interface IDashPostData {
   description?: string;
@@ -67,10 +69,12 @@ export default function Dashboard() {
                 <FaTrash className="text-xl" />
                 Delete
               </button>
-              <button className="flex text-zinc-400 items-center justify-center gap-2 py-2 text-sm">
-                <FaEdit className="text-xl" />
-                Edit
-              </button>
+              <Link href={{ pathname: '/post', query: post as ParsedUrlQueryInput }}>
+                <button className="flex text-zinc-400 items-center justify-center gap-2 py-2 text-sm">
+                  <FaEdit className="text-xl" />
+                  Edit
+                </button>
+              </Link>
             </div>
           </Message>
         ))}
