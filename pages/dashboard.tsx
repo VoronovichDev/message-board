@@ -7,6 +7,7 @@ import {
   deleteDoc,
   doc,
   onSnapshot,
+  orderBy,
   query,
   Timestamp,
   where,
@@ -37,7 +38,7 @@ export default function Dashboard() {
       if (loading) return;
       if (!user) return route.push('./auth/login');
       const collectionRef = collection(db, 'posts');
-      const q = query(collectionRef, where('user', '==', user.uid));
+      const q = query(collectionRef, where('user', '==', user.uid), orderBy('timestamp', 'desc'));
       const unsubscribe = onSnapshot(q, (snapshot) => {
         setPosts(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
       });

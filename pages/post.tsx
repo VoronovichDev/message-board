@@ -52,6 +52,10 @@ export default function Post() {
         username: user?.displayName,
       });
       setPost({ description: '' });
+      toast.success('Your thought has been published', {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 2500,
+      });
       return route.push('/');
     }
   };
