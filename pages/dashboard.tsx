@@ -31,7 +31,6 @@ export default function Dashboard() {
   const route = useRouter();
   const [user, loading, error] = useAuthState(auth);
   const [posts, setPosts] = useState<IDashPostData[]>([]);
-  console.log(user);
 
   useEffect(() => {
     const getData = async () => {

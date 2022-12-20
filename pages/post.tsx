@@ -12,7 +12,6 @@ export default function Post() {
   const [user, loading, error] = useAuthState(auth);
   const route = useRouter();
   const routeData = route.query;
-  console.log(routeData);
 
   // Post submission
   const submitPost = async (e: React.FormEvent) => {

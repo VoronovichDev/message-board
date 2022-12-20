@@ -13,6 +13,7 @@ interface IPostData {
   user?: string;
   username?: string;
   id?: string;
+  comments?: [] | undefined;
 }
 
 export default function Home() {
@@ -44,7 +45,7 @@ export default function Home() {
         {allPosts.map((post) => (
           <Message key={post.id} {...post}>
             <Link href={{ pathname: `/${post.id}`, query: { ...post } as ParsedUrlQueryInput }}>
-              <button>comments</button>
+              <button>{post.comments?.length ? post.comments?.length : 0} comments</button>
             </Link>
           </Message>
         ))}
