@@ -71,7 +71,10 @@ export default function Details() {
             placeholder="Comment it!"
             className="bg-blue-300 w-full p-2 placeholder:text-blue-900 placeholder:opacity-70 text-black text-sm"
           />
-          <button onClick={submitMessage} className="bg-violet-500 text-white py-2 px-4 text-sm">
+          <button
+            onClick={submitMessage}
+            className="bg-violet-500 text-white sm:py-2 sm:px-4 py-1 px-2 sm:text-sm text-xs"
+          >
             Comment
           </button>
         </div>

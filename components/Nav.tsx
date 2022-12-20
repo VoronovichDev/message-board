@@ -8,8 +8,9 @@ export default function Nav() {
   const [user, loading, error] = useAuthState(auth);
   return (
     <nav className="flex justify-between items-center py-10">
-      <Link href="/">
-        <button className="texl-lg font-medium">Message board</button>
+      <Link href="/" className="flex sm:gap-2 gap:0 flex-col sm:flex-row items-center">
+        <button className="texl-lg font-medium">Mini-twitter</button>
+        <img className="sm:w-10 w-7 p-0" src="/logo.png" alt="mini-twitter" />
       </Link>
       <ul className="flex items-center gap-10">
         {!user && (
@@ -20,15 +21,15 @@ export default function Nav() {
           </Link>
         )}
         {user && (
-          <div className="flex items-center gap-6">
+          <div className="flex items-center sm:gap-6 gap-3">
             <Link href="/post">
-              <button className="font-medium bg-indigo-500 text-white py-2 px-4 rounded-md text-sm">
+              <button className="font-medium bg-indigo-500 text-white sm:py-2 sm:px-4 py-1 px-2 rounded-md sm:text-sm text-xs">
                 Publicate
               </button>
             </Link>
             <Link href="/dashboard">
               <img
-                className="w-12 rounded-full cursor-pointer"
+                className="sm:w-12 w-8 rounded-full cursor-pointer"
                 src={user.photoURL as string}
                 alt="user image"
               />
